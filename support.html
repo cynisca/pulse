@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support — Pulse</title>
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --deep-indigo: #190c3c;
+            --vibrant-blue: #283cb4;
+            --accent: #5b6ef5;
+            --accent-light: #8b9aff;
+            --surface: #f6f7fb;
+            --surface-card: #ffffff;
+            --text-primary: #1a1a2e;
+            --text-secondary: #555570;
+            --text-on-dark: #e8e8f0;
+            --radius: 16px;
+            --radius-sm: 10px;
+            --max-width: 960px;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            color: var(--text-primary);
+            background: var(--surface);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ---- NAV ---- */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(25, 12, 60, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .nav-inner {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+        .nav-logo {
+            font-size: 22px;
+            font-weight: 700;
+            color: #fff;
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+        .nav-logo span {
+            background: linear-gradient(135deg, var(--accent-light), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .nav-links { display: flex; gap: 8px; align-items: center; }
+        .nav-links a {
+            color: var(--text-on-dark);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 14px;
+            border-radius: var(--radius-sm);
+            transition: background 0.2s, color 0.2s;
+        }
+        .nav-links a:hover, .nav-links a.active {
+            background: rgba(255,255,255,0.12);
+            color: #fff;
+        }
+        .nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+        .nav-toggle svg { width: 24px; height: 24px; stroke: #fff; fill: none; stroke-width: 2; stroke-linecap: round; }
+
+        @media (max-width: 640px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 64px;
+                left: 0; right: 0;
+                background: rgba(25, 12, 60, 0.97);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 12px 24px 20px;
+                gap: 4px;
+                border-bottom: 1px solid rgba(255,255,255,0.08);
+            }
+            .nav-links.open { display: flex; }
+            .nav-links a { padding: 12px 14px; width: 100%; }
+            .nav-toggle { display: block; }
+        }
+
+        /* ---- PAGE HEADER ---- */
+        .page-header {
+            background: linear-gradient(160deg, var(--deep-indigo) 0%, var(--vibrant-blue) 100%);
+            padding: 64px 24px 48px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: -40%; left: -20%;
+            width: 140%; height: 140%;
+            background: radial-gradient(ellipse at 30% 20%, rgba(91,110,245,0.25) 0%, transparent 60%);
+            pointer-events: none;
+        }
+        .page-header h1 {
+            position: relative;
+            font-size: clamp(28px, 5vw, 40px);
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: -1px;
+            margin-bottom: 8px;
+        }
+        .page-header .subtitle {
+            position: relative;
+            color: rgba(255,255,255,0.65);
+            font-size: 15px;
+        }
+
+        /* ---- CONTENT ---- */
+        .content {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 48px 24px 80px;
+        }
+        .content h2 {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            margin: 48px 0 24px;
+            color: var(--deep-indigo);
+        }
+        .content h2:first-child { margin-top: 0; }
+        .content p, .content li {
+            color: var(--text-secondary);
+            font-size: 16px;
+            line-height: 1.7;
+            margin-bottom: 12px;
+        }
+        .content ul, .content ol {
+            padding-left: 24px;
+            margin-bottom: 16px;
+        }
+        .content li { margin-bottom: 8px; }
+        .content a {
+            color: var(--vibrant-blue);
+            text-decoration: underline;
+            text-decoration-color: rgba(40,60,180,0.3);
+            text-underline-offset: 3px;
+            transition: text-decoration-color 0.2s;
+        }
+        .content a:hover { text-decoration-color: var(--vibrant-blue); }
+        .content strong { color: var(--text-primary); font-weight: 600; }
+
+        /* ---- FAQ ---- */
+        .faq-item {
+            background: var(--surface-card);
+            border: 1px solid rgba(0,0,0,0.06);
+            border-radius: var(--radius);
+            margin-bottom: 16px;
+            overflow: hidden;
+            transition: box-shadow 0.2s;
+        }
+        .faq-item:hover { box-shadow: 0 4px 20px rgba(25,12,60,0.06); }
+
+        .faq-question {
+            width: 100%;
+            background: none;
+            border: none;
+            padding: 24px 28px;
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            font-family: inherit;
+            line-height: 1.4;
+        }
+        .faq-question:hover { color: var(--vibrant-blue); }
+        .faq-chevron {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+            stroke: var(--text-secondary);
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            transition: transform 0.25s ease;
+        }
+        .faq-item.open .faq-chevron { transform: rotate(180deg); }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+        .faq-item.open .faq-answer {
+            max-height: 400px;
+        }
+        .faq-answer-inner {
+            padding: 0 28px 24px;
+        }
+        .faq-answer-inner p {
+            margin-bottom: 8px;
+        }
+        .faq-answer-inner p:last-child { margin-bottom: 0; }
+        .faq-answer-inner ol { margin-top: 8px; }
+
+        /* ---- CONTACT CARD ---- */
+        .contact-card {
+            background: linear-gradient(160deg, var(--deep-indigo), var(--vibrant-blue));
+            border-radius: var(--radius);
+            padding: 40px 36px;
+            text-align: center;
+            margin-top: 48px;
+        }
+        .contact-card h3 {
+            color: #fff;
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        .contact-card p {
+            color: rgba(255,255,255,0.75);
+            font-size: 16px;
+            margin-bottom: 24px;
+        }
+        .contact-card a.email-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #fff;
+            color: var(--deep-indigo);
+            font-size: 15px;
+            font-weight: 600;
+            padding: 14px 28px;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        }
+        .contact-card a.email-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+        .contact-card a.email-btn svg { width: 18px; height: 18px; }
+
+        /* ---- LINKS ROW ---- */
+        .links-row {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 32px;
+        }
+        .links-row a {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--surface-card);
+            border: 1px solid rgba(0,0,0,0.08);
+            color: var(--text-primary);
+            font-size: 14px;
+            font-weight: 500;
+            padding: 12px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .links-row a:hover {
+            border-color: var(--accent);
+            box-shadow: 0 2px 12px rgba(91,110,245,0.12);
+        }
+
+        /* ---- FOOTER ---- */
+        footer {
+            background: var(--deep-indigo);
+            color: var(--text-on-dark);
+            padding: 48px 24px 32px;
+        }
+        .footer-inner {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 32px;
+        }
+        .footer-brand p { color: rgba(255,255,255,0.5); font-size: 14px; margin-top: 6px; max-width: 280px; }
+        .footer-links { display: flex; gap: 32px; flex-wrap: wrap; }
+        .footer-links a {
+            color: rgba(255,255,255,0.65);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+        .footer-links a:hover { color: #fff; }
+        .footer-bottom {
+            max-width: var(--max-width);
+            margin: 32px auto 0;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            text-align: center;
+            color: rgba(255,255,255,0.35);
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="nav-inner">
+        <a href="index.html" class="nav-logo"><span>Pulse</span></a>
+        <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Toggle menu">
+            <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="privacy.html">Privacy</a>
+            <a href="terms.html">Terms</a>
+            <a href="support.html" class="active">Support</a>
+        </div>
+    </div>
+</nav>
+
+<section class="page-header">
+    <h1>Support</h1>
+    <p class="subtitle">Find answers or get in touch</p>
+</section>
+
+<main class="content">
+
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq-item open">
+        <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+            How do I create a new tracker?
+            <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-answer">
+            <div class="faq-answer-inner">
+                <p>From the home screen, tap the <strong>+</strong> button in the top right corner. You can either:</p>
+                <ol>
+                    <li><strong>Choose from a Starter Pack</strong> — curated sets of trackers for mood, health, fitness, productivity, and more. These give you a great starting point.</li>
+                    <li><strong>Create a custom tracker</strong> — name it, pick a color, set the value type (rating, yes/no, number, etc.), and you're ready to go.</li>
+                </ol>
+                <p>Trackers appear on your home screen and can be reordered by pressing and holding.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+            How do I cancel my subscription?
+            <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-answer">
+            <div class="faq-answer-inner">
+                <p>Subscriptions are managed through Apple. To cancel:</p>
+                <ol>
+                    <li>Open the <strong>Settings</strong> app on your iPhone or iPad</li>
+                    <li>Tap your <strong>name</strong> at the top</li>
+                    <li>Tap <strong>Subscriptions</strong></li>
+                    <li>Find <strong>Pulse</strong> and tap it</li>
+                    <li>Tap <strong>Cancel Subscription</strong></li>
+                </ol>
+                <p>You must cancel at least 24 hours before your renewal date to avoid being charged for the next period. You will continue to have access to premium features until the end of your current billing cycle.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+            How do I export my data?
+            <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-answer">
+            <div class="faq-answer-inner">
+                <p>You can export your data in CSV or JSON format at any time:</p>
+                <ol>
+                    <li>Open Pulse and go to <strong>Settings</strong></li>
+                    <li>Tap <strong>Export Data</strong></li>
+                    <li>Choose your preferred format (<strong>CSV</strong> or <strong>JSON</strong>)</li>
+                    <li>Share the file using any method available on your device (AirDrop, email, Files, etc.)</li>
+                </ol>
+                <p>The export includes all of your trackers and their entries with timestamps. We recommend exporting periodically as a backup since all data is stored locally on your device.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+            How do I delete all my data?
+            <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-answer">
+            <div class="faq-answer-inner">
+                <p>To permanently delete all your data from Pulse:</p>
+                <ol>
+                    <li>Open Pulse and go to <strong>Settings</strong></li>
+                    <li>Scroll down and tap <strong>Delete All Data</strong></li>
+                    <li>Confirm the deletion when prompted</li>
+                </ol>
+                <p><strong>Warning:</strong> This action is irreversible. All trackers, entries, and settings will be permanently removed. Consider exporting your data first. Alternatively, uninstalling the app will also delete all data.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="contact-card">
+        <h3>Still need help?</h3>
+        <p>We are happy to help with any questions, feedback, or issues you might have.</p>
+        <a href="mailto:fahim.zahur@gmail.com" class="email-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            fahim.zahur@gmail.com
+        </a>
+    </div>
+
+    <div class="links-row">
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Use</a>
+    </div>
+
+</main>
+
+<footer>
+    <div class="footer-inner">
+        <div class="footer-brand">
+            <span style="background:linear-gradient(135deg,var(--accent-light),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-size:22px;font-weight:700;">Pulse</span>
+            <p>Understand yourself, one tap at a time.</p>
+        </div>
+        <div class="footer-links">
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="terms.html">Terms of Use</a>
+            <a href="support.html">Support</a>
+            <a href="mailto:fahim.zahur@gmail.com">Contact</a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        &copy; 2026 Pulse. All rights reserved.
+    </div>
+</footer>
+
+</body>
+</html>
